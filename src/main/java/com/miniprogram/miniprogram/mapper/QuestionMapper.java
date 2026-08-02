@@ -19,13 +19,13 @@ public interface QuestionMapper {
             "WHERE q.course_id = #{courseId} ORDER BY q.sort_order ASC")
     List<Question> findQuestionsWithAnswer(@Param("userId") Long userId, @Param("courseId") Long courseId);
 
-    @Insert("INSERT INTO question(course_id, content, options, answer, score, sort_order) " +
-            "VALUES(#{courseId}, #{content}, #{options}, #{answer}, #{score}, #{sortOrder})")
+    @Insert("INSERT INTO question(course_id, chapter, question_type, content, options, answer, score, sort_order) " +
+            "VALUES(#{courseId}, #{chapter}, #{questionType}, #{content}, #{options}, #{answer}, #{score}, #{sortOrder})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(Question question);
 
-    @Update("UPDATE question SET course_id=#{courseId}, content=#{content}, options=#{options}, " +
-            "answer=#{answer}, score=#{score}, sort_order=#{sortOrder} WHERE id=#{id}")
+    @Update("UPDATE question SET course_id=#{courseId}, chapter=#{chapter}, question_type=#{questionType}, " +
+            "content=#{content}, options=#{options}, answer=#{answer}, score=#{score}, sort_order=#{sortOrder} WHERE id=#{id}")
     int update(Question question);
 
     @Delete("DELETE FROM question WHERE id = #{id}")
