@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/question")
@@ -21,7 +22,7 @@ public class QuestionController {
     @Autowired
     private AnswerRecordMapper answerRecordMapper;
 
-    // 获取课程的所有题目（含用户答题状态）
+    // 获取课程所有题目（含用户答题状态）
     @GetMapping("/list/{courseId}")
     public Map<String, Object> getQuestions(@PathVariable Long courseId, @RequestParam Long userId) {
         List<Question> questions = questionMapper.findQuestionsWithAnswer(userId, courseId);
@@ -70,12 +71,46 @@ public class QuestionController {
         return result;
     }
 
-    // 获取答题统计
-    @GetMapping("/stats/{userId}")
-    public Map<String, Object> getStats(@PathVariable Long userId) {
+    // 获取课程答题统计
+    @GetMapping("/stats/{courseId}")
+    public Map<String, Object> getStats(@PathVariable Long courseId, @RequestParam Long userId) {
+        List<Question> questions = questionMapper.findByCourseId(courseId);
+        List<AnswerRecord> records = answerRecordMapper.findByUserAndCourse(userId, courseId);
+
+        int total = questions.size();
+        int correct = 0;
+        int score = 0;
+        int maxScore = 0;
+
+        Map<Long, AnswerRecord> recordMap = records.stream()
+                .collect(Collectors.toMap(AnswerRecord::getQuestionId, r -> r));
+
+        for (Question q : questions) {
+            maxScore += q.getScore() != null ? q.getScore() : 1;
+            AnswerRecord r = recordMap.get(q.getId());
+            if (r != null && r.getIsCorrect() == 1) {
+                correct++;
+                score += q.getScore() != null ? q.getScore() : 1;
+            }
+        }
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("success", true);
+        result.put("total", total);
+        result.put("correct", correct);
+        result.put("score", score);
+        result.put("maxScore", maxScore);
+        result.put("percent", total > 0 ? (correct * 100 / total) : 0);
+        return result;
+    }
+
+    // 获取用户答题统计（所有课程）
+    @GetMapping("/stats/all/{userId}")
+    public Map<String, Object> getAllStats(@PathVariable Long userId) {
         int total = answerRecordMapper.countTotal(userId);
         int correct = answerRecordMapper.countCorrect(userId);
         Map<String, Object> result = new HashMap<>();
+        result.put("success", true);
         result.put("total", total);
         result.put("correct", correct);
         result.put("rate", total > 0 ? (correct * 100 / total) : 0);
