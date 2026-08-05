@@ -1,189 +1,206 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>管理后台</title>
+    <title>管理后台 - 研支领航</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: system-ui, -apple-system, sans-serif;
-            min-height: 100vh;
-            background: url('/admin/background.jpg') no-repeat center/cover;
-            background-attachment: fixed;
+            background: #f5f6fa;
         }
-        /* 半透明遮罩 - 让内容更清晰 */
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(4px);
-            z-index: 0;
-        }
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 260px;
-            height: 100%;
-            background: rgba(44, 62, 80, 0.92);
-            backdrop-filter: blur(6px);
-            color: white;
-            z-index: 1;
-        }
-        .sidebar h3 {
-            padding: 24px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        .sidebar ul {
-            list-style: none;
-            padding: 20px 0;
-        }
-        .sidebar li a {
-            display: block;
-            padding: 12px 24px;
-            color: rgba(255,255,255,0.8);
-            text-decoration: none;
-        }
-        .sidebar li a:hover {
-            background: rgba(255,255,255,0.1);
-        }
-        .content {
-            position: relative;
-            z-index: 1;
-            margin-left: 260px;
-            padding: 24px;
-        }
-        .top-bar {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(4px);
+        .header {
+            background: #fff;
             padding: 16px 24px;
-            border-radius: 12px;
-            margin-bottom: 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
-        .stats {
+        .header h1 { font-size: 20px; color: #333; }
+        .header a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .container { padding: 24px; max-width: 1200px; margin: 0 auto; }
+
+        /* 统计卡片 */
+        .stats-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
         }
         .stat-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(4px);
-            padding: 20px;
+            background: #fff;
             border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        .stat-card h4 {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 10px;
-        }
-        .stat-card .num {
-            font-size: 32px;
-            font-weight: bold;
-            color: #333;
-        }
-        .card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(4px);
             padding: 24px;
-            border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
         }
-        .card h3 {
-            margin-bottom: 20px;
+        .stat-card .number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+        .stat-card .label {
+            font-size: 14px;
+            color: #999;
+        }
+
+        /* 表格区域 */
+        .section {
+            background: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .section h2 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 16px;
         }
         table {
             width: 100%;
             border-collapse: collapse;
         }
         th, td {
-            padding: 12px;
+            padding: 12px 16px;
             text-align: left;
-            border-bottom: 1px solid rgba(0,0,0,0.08);
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
         }
-        th {
-            background: rgba(0,0,0,0.03);
+        th { color: #999; font-weight: 600; }
+        td { color: #333; }
+        tr:hover { background: #fafafa; }
+
+        /* 标签页 */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
         }
-        .loading { text-align: center; padding: 20px; color: #999; }
+        .tab {
+            padding: 8px 20px;
+            background: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #666;
+            border: 1px solid #e0e0e0;
+        }
+        .tab.active {
+            background: #667eea;
+            color: #fff;
+            border-color: #667eea;
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        .badge-green { background: #e6ffed; color: #22863a; }
+        .badge-gray { background: #f6f8fa; color: #666; }
     </style>
 </head>
 <body>
-<div class="sidebar">
-    <h3>📚 研支领航助手</h3>
-    <ul>
-        <li><a href="/admin/dashboard.html">📊 仪表盘</a></li>
-        <li><a href="#">📖 课程管理</a></li>
-        <li><a href="#">👥 用户管理</a></li>
-        <li><a href="#">💬 评论管理</a></li>
-        <li><a href="/admin/logout">🚪 退出登录</a></li>
-    </ul>
+<div class="header">
+    <h1>研支领航 - 管理后台</h1>
+    <a href="/admin/login.html">退出登录</a>
 </div>
-<div class="content">
-    <div class="top-bar">
-        <h2>仪表盘</h2>
-        <span>欢迎，管理员</span>
+
+<div class="container">
+    <!-- 统计卡片 -->
+    <div class="stats-grid" id="statsGrid">
+        <div class="stat-card"><div class="number" id="totalUsers">-</div><div class="label">注册用户</div></div>
+        <div class="stat-card"><div class="number" id="totalCourses">-</div><div class="label">课程总数</div></div>
+        <div class="stat-card"><div class="number" id="totalViews">-</div><div class="label">总浏览量</div></div>
+        <div class="stat-card"><div class="number" id="totalQuestions">-</div><div class="label">题目总数</div></div>
+        <div class="stat-card"><div class="number" id="totalAnswers">-</div><div class="label">答题总数</div></div>
+        <div class="stat-card"><div class="number" id="correctRate">-</div><div class="label">答题正确率</div></div>
     </div>
 
-    <div class="stats" id="stats">
-        <div class="stat-card"><h4>总用户数</h4><div class="num" id="userCount">-</div></div>
-        <div class="stat-card"><h4>总课程数</h4><div class="num" id="courseCount">-</div></div>
-        <div class="stat-card"><h4>总题目数</h4><div class="num" id="questionCount">-</div></div>
-        <div class="stat-card"><h4>总评论数</h4><div class="num" id="commentCount">-</div></div>
+    <!-- 标签页 -->
+    <div class="tabs">
+        <div class="tab active" onclick="switchTab('courses')">课程浏览排行</div>
+        <div class="tab" onclick="switchTab('users')">用户列表</div>
     </div>
 
-    <div class="card">
-        <h3>最近用户</h3>
-        <div id="userTableWrap"><div class="loading">加载中...</div></div>
+    <!-- 课程浏览排行 -->
+    <div class="tab-content active" id="tab-courses">
+        <div class="section">
+            <h2>课程浏览量排行</h2>
+            <table>
+                <thead>
+                <tr><th>排名</th><th>课程名称</th><th>浏览量</th></tr>
+                </thead>
+                <tbody id="courseTable"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 用户列表 -->
+    <div class="tab-content" id="tab-users">
+        <div class="section">
+            <h2>注册用户</h2>
+            <table>
+                <thead>
+                <tr><th>ID</th><th>昵称</th><th>学号</th><th>是否绑定</th><th>注册时间</th></tr>
+                </thead>
+                <tbody id="userTable"></tbody>
+            </table>
+        </div>
     </div>
 </div>
 
 <script>
-    const API = '/admin/api';
+    // 加载总览统计
+    fetch('/admin/api/stats/overview').then(r => r.json()).then(data => {
+        document.getElementById('totalUsers').textContent = data.totalUsers || 0;
+        document.getElementById('totalCourses').textContent = data.totalCourses || 0;
+        document.getElementById('totalViews').textContent = data.totalViews || 0;
+        document.getElementById('totalQuestions').textContent = data.totalQuestions || 0;
+        document.getElementById('totalAnswers').textContent = data.totalAnswers || 0;
+        var rate = data.totalAnswers > 0
+            ? Math.round(data.correctAnswers / data.totalAnswers * 100) + '%'
+            : '0%';
+        document.getElementById('correctRate').textContent = rate;
+    });
 
-    fetch(API + '/stats')
-        .then(r => r.json())
-        .then(data => {
-            document.getElementById('userCount').textContent = data.totalUsers || 0;
-            document.getElementById('courseCount').textContent = data.totalCourses || 0;
-            document.getElementById('questionCount').textContent = data.totalQuestions || 0;
-            document.getElementById('commentCount').textContent = data.totalComments || 0;
-        })
-        .catch(() => {
-            fetch(API + '/course/list')
-                .then(r => r.json())
-                .then(data => document.getElementById('courseCount').textContent = data.length || 0)
-                .catch(() => {});
-        });
+    // 加载课程浏览排行
+    fetch('/admin/api/stats/course-views').then(r => r.json()).then(data => {
+        var html = data.map(function(c, i) {
+            return '<tr><td>' + (i + 1) + '</td><td>' + c.title + '</td><td>' + c.viewCount + '</td></tr>';
+        }).join('');
+        document.getElementById('courseTable').innerHTML = html;
+    });
 
-    fetch('/api/user/recent')
-        .then(r => r.json())
-        .then(data => {
-            const wrap = document.getElementById('userTableWrap');
-            if (!data || data.length === 0) {
-                wrap.innerHTML = '<div class="loading">暂无用户</div>';
-                return;
-            }
-            let html = '<table><thead><tr><th>ID</th><th>昵称</th><th>注册时间</th></tr></thead><tbody>';
-            data.forEach(u => {
-                html += `<tr><td>${u.id}</td><td>${u.nickname || '未命名'}</td><td>${u.createTime || '-'}</td></tr>`;
-            });
-            html += '</tbody></table>';
-            wrap.innerHTML = html;
-        })
-        .catch(() => {
-            document.getElementById('userTableWrap').innerHTML = '<div class="loading">加载失败</div>';
-        });
+    // 加载用户列表
+    fetch('/admin/api/stats/users').then(r => r.json()).then(data => {
+        var html = data.map(function(u) {
+            var bound = u.is_bound == 1
+                ? '<span class="badge badge-green">已绑定</span>'
+                : '<span class="badge badge-gray">未绑定</span>';
+            var time = u.create_time ? new Date(u.create_time).toLocaleString() : '-';
+            return '<tr><td>' + u.id + '</td><td>' + (u.nickname || '-') + '</td><td>'
+                + (u.student_id || '-') + '</td><td>' + bound + '</td><td>' + time + '</td></tr>';
+        }).join('');
+        document.getElementById('userTable').innerHTML = html;
+    });
+
+    function switchTab(name) {
+        document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+        document.querySelectorAll('.tab-content').forEach(function(t) { t.classList.remove('active'); });
+        event.target.classList.add('active');
+        document.getElementById('tab-' + name).classList.add('active');
+    }
 </script>
 </body>
 </html>

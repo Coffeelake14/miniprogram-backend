@@ -3,6 +3,9 @@ package com.miniprogram.miniprogram.mapper;
 import com.miniprogram.miniprogram.entity.User;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+import java.util.Map;
+
 @Mapper
 public interface UserMapper {
 
@@ -21,4 +24,12 @@ public interface UserMapper {
 
     @Select("SELECT * FROM user WHERE student_id = #{studentId} AND is_bound = 1")
     User findByStudentId(String studentId);
+
+
+    @Select("SELECT COUNT(*) FROM user")
+    int countAll();
+
+    @Select("SELECT id, openid, nickname, avatar, role, student_id, is_bound, create_time FROM user ORDER BY create_time DESC")
+    List<Map<String, Object>> findAllUsers();
+
 }

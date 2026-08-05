@@ -26,4 +26,11 @@ public interface AnswerRecordMapper {
 
     @Select("SELECT COUNT(*) FROM answer_record WHERE user_id = #{userId}")
     int countTotal(@Param("userId") Long userId);
+
+    @Select("SELECT COUNT(*) FROM answer_record")
+    int countAllAnswers();
+
+    @Select("SELECT COUNT(*) FROM answer_record WHERE is_correct = 1")
+    int countAllCorrect();
+
 }
