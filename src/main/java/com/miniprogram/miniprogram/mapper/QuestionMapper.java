@@ -30,4 +30,8 @@ public interface QuestionMapper {
 
     @Delete("DELETE FROM question WHERE id = #{id}")
     int deleteById(Long id);
+
+    @Select("SELECT COUNT(*) FROM question")
+    int countAll();
+
 }

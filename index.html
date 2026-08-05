@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Flyingchar的主页</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background-image: url('/bg.jpg');
+            background-size: cover;
+            background-position: center;
+            font-family: -apple-system, system-ui, "PingFang SC", "微软雅黑", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        }
+
+        .top_bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            text-align: center;
+            padding: 30px 0;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(6px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .top_bar span {
+            font-size: 30px;
+            color: #999;
+            letter-spacing: 3px;
+        }
+        .top_bar span em {
+            font-style: normal;
+            color: #fb7299;
+            font-weight: 500;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(4px);
+            padding: 48px 56px;
+            border-radius: 24px;
+            max-width: 560px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 40px;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+        }
+
+        .sub {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .bili {
+            display: inline-block;
+            background: #fb7299;
+            color: #fff;
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .desc {
+            color: #555;
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .link {
+            color: #fb7299;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .link:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            text-align: center;
+            padding: 20px 0 28px 0;
+            background: linear-gradient(to top, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 100%);
+            color: #aaa;
+            font-size: 13px;
+            letter-spacing: 1px;
+        }
+        .footer .heart {
+            color: #fb7299;
+            display: inline-block;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        .footer .at {
+            color: #ccc;
+            font-weight: 300;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top_bar">
+    <span><em>网站正在制作维护！(*´﹃｀*)</em></span>
+</div>
+
+<div class="card">
+    <h1>Flyingchar</h1>
+    <div class="sub">一只蒟蒻</div>
+
+    <div class="bili">B站：@Flyingchar非猹</div>
+
+    <div class="desc">
+        软工，热爱软硬件技术，备战算法赛和写点小项目ing。<br>
+        这里将会记录我的主业软件项目，软硬件外设分享，硬件以及魔改，以及老硬件。<br>
+        B站有硬件的折腾，彩六和CS2，可以去b站看看我的视频呀ฅ₍^˶ ╸𖥦 ╸˵^₎⟆。<br>
+        后期有时间还会更新Retro老硬件视频(=・ω・=)。
+    </div>
+
+    <div>
+        <a href="https://space.bilibili.com/357655061" target="_blank" class="link">
+            去B站关注我喵╭( ゜- ゜)つロ →
+        </a>
+    </div>
+</div>
+
+<div class="footer">
+    <span class="at">© 2026 Flyingchar ·</span>
+    <span class="heart">♥</span>
+    <span class="at">LZY</span>
+</div>
+
+</body>
+</html>

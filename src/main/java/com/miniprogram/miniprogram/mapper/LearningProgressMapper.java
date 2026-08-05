@@ -27,4 +27,8 @@ public interface LearningProgressMapper {
 
     @Select("SELECT SUM(watched_duration) FROM learning_progress WHERE user_id = #{userId}")
     Integer totalLearningTime(@Param("userId") Long userId);
+
+    @Select("SELECT COUNT(*) FROM learning_progress")
+    int countAllProgress();
+
 }
