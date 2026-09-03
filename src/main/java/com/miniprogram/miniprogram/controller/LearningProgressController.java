@@ -31,7 +31,6 @@ public class LearningProgressController {
     public Map<String, Object> reportProgress(@RequestBody Map<String, Object> params) {
         Long userId = Long.valueOf(params.get("userId").toString());
         Long courseId = Long.valueOf(params.get("courseId").toString());
-        Integer position = Integer.valueOf(params.get("position").toString());
         Integer duration = Integer.valueOf(params.get("duration").toString());
 
         // 获取课程信息
@@ -57,8 +56,11 @@ public class LearningProgressController {
             progressMapper.insert(progress);
         }
 
+        // 记录上报前的进度位置，避免后续覆盖后丢失
+        int oldPosition = progress.getLastPosition() != null ? progress.getLastPosition() : 0;
+
         // 计算本次新增时长
-        int newDuration = duration - progress.getLastPosition();
+        int newDuration = duration - oldPosition;
         if (newDuration < 0) newDuration = 0;
         if (newDuration > 60) newDuration = 60; // 单次最多上报60秒
 
@@ -79,7 +81,7 @@ public class LearningProgressController {
         record.setUserId(userId);
         record.setCourseId(courseId);
         record.setDuration(newDuration);
-        record.setStartPosition(progress.getLastPosition());
+        record.setStartPosition(oldPosition);
         record.setEndPosition(duration);
         recordMapper.insert(record);
 
@@ -114,8 +116,7 @@ public class LearningProgressController {
     // 获取用户所有课程进度
     @GetMapping("/all/{userId}")
     public List<LearningProgress> getAllProgress(@PathVariable Long userId) {
-        // 需要添加 findByUserId 方法
-        return null;
+        return progressMapper.findByUserId(userId);
     }
 
     // 获取学习统计

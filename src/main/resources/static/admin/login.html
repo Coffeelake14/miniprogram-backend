@@ -102,11 +102,19 @@
         var user = document.getElementById('username').value;
         var pass = document.getElementById('password').value;
 
-        if (user === 'admin' && pass === '123456') {
-            window.location.href = '/admin/dashboard.html';
-        } else {
+        fetch('/admin/login', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({username: user, password: pass})
+        }).then(function(r) { return r.json(); }).then(function(data) {
+            if (data.success) {
+                window.location.href = '/admin/dashboard.html';
+            } else {
+                document.getElementById('errorMsg').style.display = 'block';
+            }
+        }).catch(function() {
             document.getElementById('errorMsg').style.display = 'block';
-        }
+        });
     };
 </script>
 </body>

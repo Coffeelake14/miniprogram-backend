@@ -113,7 +113,7 @@
 <body>
 <div class="header">
     <h1>研支领航 - 管理后台</h1>
-    <a href="/admin/login.html">退出登录</a>
+    <a href="#" onclick="logout()">退出登录</a>
 </div>
 
 <div class="container">
@@ -194,6 +194,12 @@
         }).join('');
         document.getElementById('userTable').innerHTML = html;
     });
+
+    function logout() {
+        fetch('/admin/logout', {method: 'POST'}).finally(function() {
+            window.location.href = '/admin/login.html';
+        });
+    }
 
     function switchTab(name) {
         document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });

@@ -26,6 +26,11 @@ public class QuestionController {
     @GetMapping("/list/{courseId}")
     public Map<String, Object> getQuestions(@PathVariable Long courseId, @RequestParam Long userId) {
         List<Question> questions = questionMapper.findQuestionsWithAnswer(userId, courseId);
+        // 列表不返回答案与解析，避免答题前泄露
+        for (Question q : questions) {
+            q.setAnswer(null);
+            q.setExplanation(null);
+        }
         Map<String, Object> result = new HashMap<>();
         result.put("success", true);
         result.put("data", questions);

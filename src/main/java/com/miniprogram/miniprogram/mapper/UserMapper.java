@@ -29,7 +29,7 @@ public interface UserMapper {
     @Select("SELECT COUNT(*) FROM user")
     int countAll();
 
-    @Select("SELECT id, openid, nickname, avatar, role, student_id, is_bound, create_time FROM user ORDER BY create_time DESC")
+    @Select("SELECT id, nickname, avatar, role, student_id, is_bound, create_time FROM user ORDER BY create_time DESC")
     List<Map<String, Object>> findAllUsers();
 
 }

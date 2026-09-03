@@ -3,11 +3,16 @@ package com.miniprogram.miniprogram.mapper;
 import com.miniprogram.miniprogram.entity.LearningProgress;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 @Mapper
 public interface LearningProgressMapper {
 
     @Select("SELECT * FROM learning_progress WHERE user_id = #{userId} AND course_id = #{courseId}")
     LearningProgress findByUserAndCourse(@Param("userId") Long userId, @Param("courseId") Long courseId);
+
+    @Select("SELECT * FROM learning_progress WHERE user_id = #{userId}")
+    List<LearningProgress> findByUserId(Long userId);
 
     @Insert("INSERT INTO learning_progress(user_id, course_id, total_duration) " +
             "VALUES(#{userId}, #{courseId}, #{totalDuration})")
